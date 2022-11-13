@@ -1,0 +1,77 @@
+@import './variables.module.scss';
+
+@font-face {
+    font-family: 'NotoSansTC';
+    src: url(../fonts/NotoSansTC-Bold.otf) format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NotoSansTC';
+    src: url(../fonts/NotoSansTC-Medium.otf) format('opentype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NotoSansTC';
+    src: url(../fonts/NotoSansTC-Regular.otf) format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NotoSansTC';
+    src: url(../fonts/NotoSansTC-Light.otf) format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+html {
+    font-family: 'NotoSansTC';
+    letter-spacing: 0.2em;
+}
+
+body {
+    margin: 0;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    scroll-behavior: smooth;
+    * {
+        box-sizing: border-box;
+    }
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+a,
+button {
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.confirm-dialog {
+    .MuiDialog-paper {
+        width: 95vw;
+        max-width: 830px;
+        border-radius: 35px;
+        padding: 14px 30px;
+        
+        .MuiDialogContentText-root {
+            font-family: 'NotoSansTC';
+            font-size: 20px;
+            font-weight: 300;
+            line-height: 30px;
+            text-align: center;
+            letter-spacing: 0.2em;
+            color: $dark-grey;  
+            padding: 60px 0;  
+        }
+    }
+}

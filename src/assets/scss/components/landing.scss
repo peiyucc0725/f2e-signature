@@ -1,0 +1,68 @@
+@import '../variables.module.scss';
+
+.langing-page {
+    position: relative;
+    overflow: hidden;
+    min-height: calc(100vh - 60px);
+    margin-top: 60px;
+    background-image: url('../../images/landing-bg@1x.png');
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position: right center;
+
+    &>img {
+        position: absolute;
+        right: 41%;
+    }
+
+    &__main {
+        position: absolute;
+        right: 18%;
+        top: 25%;
+    }
+
+    .subtitle {
+        color: $secondary;
+        font-size: 24px;
+        line-height: 36px;
+        font-weight: 300;
+        text-align: justify;
+        letter-spacing: 1em;
+        margin: 23px 0;
+    }
+
+    .sign-btn {
+        font-size: 24px;
+        font-weight: 300;
+        line-height: 36px;
+        letter-spacing: 0.95em;
+        background-color: transparent;
+        border: none;
+        padding: 31px 123px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        margin-top: 10%;
+        position: relative;
+        overflow: hidden;
+        transition: all .5s;
+
+        &::after {
+            position: absolute;
+            content: "";
+            width: 200%;
+            height: 100%;
+            top: 0;
+            left: -100%;
+            background: linear-gradient(to right, $primary 50%, $light-main 50%);
+            z-index: -1;
+            transition: all .5s;
+        }
+
+        &:hover {
+            color: #fff;
+
+            &::after {
+                left: 0;
+            }
+        }
+    }
+}

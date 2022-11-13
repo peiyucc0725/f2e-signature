@@ -1,0 +1,103 @@
+@import '../variables.module.scss';
+
+.custom-button {
+    border: none;
+    letter-spacing: 0.2em;
+    font-weight: 300;
+    font-family: 'NotoSansTC';
+
+    &.disabled {
+        cursor: default;
+
+        &.text {
+            color: $disabled;
+        }
+    }
+
+    &.text {
+        background: none;
+        font-size: 16px;
+        padding: 0;
+
+        &:not(.disabled) {
+            color: $secondary;
+            background: linear-gradient(to bottom, $primary, $primary 50%, $secondary 50%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 100% 200%;
+            background-position: 0 100%;
+            transition: background-position .2s ease;
+
+            &:hover {
+                background-position: 0% 200%;
+            }
+        }
+    }
+
+    &.confirm,
+    &.cancel,
+    &.cancel-fill {
+        height: 60px;
+        font-size: 20px;
+        line-height: 30px;
+        box-shadow: 0px 4px 4px #EEEDE8;
+        border-radius: 35px;
+        padding: 0 40px;
+
+        &.disabled {
+            color: $white;
+            background-color: $mid-grey;
+        }
+    }
+
+    &.confirm {
+        color: $white;
+        position: relative;
+        overflow: hidden;
+        transition: all .3s;
+        background-color: transparent;
+        z-index: 1;
+
+        &:not(.disabled) {
+            &::after {
+                position: absolute;
+                content: "";
+                width: 100%;
+                height: 200%;
+                bottom: -100%;
+                left: 0;
+                background: linear-gradient(to top, $primary 50%, $secondary 50%);
+                z-index: -1;
+                transition: all .3s;
+            }
+
+            &:hover {
+                &::after {
+                    bottom: 0;
+                }
+            }
+        }
+    }
+
+    &.cancel,
+    &.cancel-fill {
+        transition: all .3s;
+
+        &:not(.disabled) {
+            color: $secondary;
+
+            &:hover {
+                color: $primary;
+            }
+        }
+    }
+
+    &.cancel {
+        background-color: $white;
+    }
+
+    &.cancel-fill {
+        background-color: $light-main;
+    }
+}
