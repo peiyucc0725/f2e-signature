@@ -2,14 +2,15 @@ import { Route, Routes } from "react-router-dom";
 import Layout from "../views/Layout";
 import Landing from "../views/Landing"
 import Main from "../views/Main"
+import Editor from '../views/Editor'
 
 const Routers = props => {
     return (
         <div className="App">
             <Routes>
                 <Route element={<Layout />}>
-                    <Route exact path="/" element={<Landing />} />
-                    <Route exact path="/main" element={<Main />} />
+                    <Route path="/" element={<Landing />} />
+                    <Route path="/main" element={<Main />}></Route>
                 </Route>
             </Routes>
         </div>

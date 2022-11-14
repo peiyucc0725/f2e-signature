@@ -23,7 +23,7 @@ const ConfirmDialog = props => {
             </DialogContent>
             <DialogActions>
                 <CustomButton text="取消" type="cancel-fill" onClick={handleClose} ></CustomButton>
-                <CustomButton text="繼續編輯" onClick={handleClose} autoFocus></CustomButton>
+                <CustomButton contentClass="ml-16" text="繼續編輯" onClick={handleClose} autoFocus></CustomButton>
             </DialogActions>
         </Dialog>
     );

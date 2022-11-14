@@ -8,7 +8,7 @@ const CustomButton = props => {
     };
 
     return (
-        <button className={`custom-button ${props.type} ${props.disabled ? 'disabled' : ""}`} onClick={handleClose}>
+        <button className={`custom-button ${props.type} ${props.disabled ? 'disabled' : ""} ${props.contentClass}`} onClick={handleClose}>
             {props.text}
         </button>
     );

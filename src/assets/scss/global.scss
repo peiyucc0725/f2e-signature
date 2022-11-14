@@ -46,6 +46,14 @@ body {
     }
 }
 
+img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+}
+
 ::-webkit-scrollbar {
     display: none;
 }
@@ -53,7 +61,16 @@ body {
 a,
 button {
     cursor: pointer;
-    transition: 0.2s;
+}
+
+.inner {
+    width: 100%;
+    height: 100%;
+    max-width: 1440px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
 }
 
 .confirm-dialog {
@@ -72,6 +89,9 @@ button {
             letter-spacing: 0.2em;
             color: $dark-grey;  
             padding: 60px 0;  
+        }
+        .MuiDialogActions-root {
+            padding: 0;
         }
     }
 }

@@ -1,0 +1,117 @@
+@import '../variables.module.scss';
+
+.main-page {
+    position: relative;
+    overflow: hidden;
+    height: calc(100vh - 60px);
+    margin-top: 60px;
+    background-color: $mid-grey;
+
+    .main-container {
+        height: calc(100% - 100px);
+        width: 100%;
+    }
+
+    .main-footer {
+        position: fixed;
+        bottom: 0;
+        height: 100px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        background-color: $light-main;
+        color: $dark-grey;
+        font-weight: 300;
+
+        &__step {
+            width: 436px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .step-text {
+                width: 436px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                &>.active {
+                    color: $primary;
+                }
+
+                &>.finish {
+                    color: $secondary;
+                }
+            }
+
+            .step-line {
+                width: 400px;
+                height: 9px;
+                box-shadow: 0px 4px 4px #EEEDE8;
+                background-color: $white;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin: 16px 0 8px 0;
+                border-radius: 5px;
+                position: relative;
+                transition: .5s;
+
+                &.progress-50,
+                &.progress-100 {
+                    &::after {
+                        position: absolute;
+                        height: 3px;
+                        content: '';
+                        top: 3px;
+                        left: 3px;
+                        background-color: $secondary;
+                    }
+                }
+                &.progress-50 {
+                    &::after {
+                        width: 197px;
+                    }
+                }
+                &.progress-100 {
+                    &::after {
+                        width: 394px;
+                    }
+                }
+
+                &>div {
+                    width: 22px;
+                    height: 22px;
+                    border-radius: 50%;
+                    box-shadow: 0px 4px 4px #EEEDE8;
+                    background-color: $white;
+                    position: relative;
+                    transition: .5s;
+                    z-index: 1;
+
+                    &.active,
+                    &.finish {
+                        &::after {
+                            position: absolute;
+                            width: 16px;
+                            height: 16px;
+                            content: '';
+                            border-radius: 50%;
+                            top: 3px;
+                            left: 3px;
+                        }
+                    }
+
+                    &.active::after {
+                        background-color: $primary;
+                    }
+
+                    &.finish::after {
+                        background-color: $secondary;
+                    }
+                }
+
+            }
+        }
+    }
+}

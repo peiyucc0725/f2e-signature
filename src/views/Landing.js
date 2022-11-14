@@ -4,22 +4,18 @@ import logo from '../assets/images/logo-lg.svg'
 import Main1x from '../assets/images/landing@1x.png'
 import Main2x from '../assets/images/landing@2x.png'
 import Main3x from '../assets/images/landing@3x.png'
-import ConfirmDialog from '../components/dialog/ConfirmDialog.js'
+import { useNavigate } from "react-router-dom";
 
 const Landing = () => {
-    const [open, setOpen] = React.useState(true);
-    const handleClose = () => {
-        setOpen(false)
-    }
+    let navigate = useNavigate();
     return (
         <div className="langing-page">
             <img src={Main1x} alt="main" srcSet={`${Main2x} 2x,${Main3x} 3x`} />
             <div className='langing-page__main'>
                 <img src={logo} alt="logo" />
                 <div className="subtitle">線上簽署，方便快速。</div>
-                <button className='sign-btn'>簽署新文件</button>
+                <button className='sign-btn' onClick={()=> navigate('/main')}>簽署新文件</button>
             </div>
-            <ConfirmDialog open={open} onClose={handleClose} />
         </div>
     );
 }
