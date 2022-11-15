@@ -5,28 +5,36 @@ import DialogContentText from '@mui/material/DialogContentText';
 import CustomButton from "../CustomButton";
 
 const ConfirmDialog = props => {
-    const { onClose, open } = props;
+    const { onConfirm, onClose, open, text, confirmBtnText, cancelBtnText, alert } = props;
 
-    const handleClose = (event, reason) => {
-        if (reason && reason === "backdropClick") 
-        return;
+    const handleCancel = (event, reason) => {
+        if (reason && reason === "backdropClick")
+            return;
         onClose(event);
     };
+    const handleConfirm = (event) => {
+        onConfirm(event);
+    }
 
     return (
-        <Dialog className="confirm-dialog" onClose={handleClose} open={open}>
+        <Dialog className="confirm-dialog" onClose={handleCancel} open={open}>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    是否確定取消，<br />
-                    目前的編輯進度將不會保留。
+                    {text}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <CustomButton text="取消" type="cancel-fill" onClick={handleClose} ></CustomButton>
-                <CustomButton contentClass="ml-16" text="繼續編輯" onClick={handleClose} autoFocus></CustomButton>
+                {!alert ? <CustomButton text={cancelBtnText} type="cancel-fill" onClick={handleCancel} ></CustomButton> : null}
+                <CustomButton contentClass="ml-16" text={confirmBtnText} onClick={handleConfirm} autoFocus></CustomButton>
             </DialogActions>
         </Dialog>
     );
+}
+
+ConfirmDialog.defaultProps = {
+    alert: false,
+    confirmBtnText: '確認',
+    cancelBtnText: '取消'
 }
 
 export default ConfirmDialog;
