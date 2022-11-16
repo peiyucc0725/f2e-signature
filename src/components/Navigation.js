@@ -28,7 +28,7 @@ const Navigation = props => {
                     {props.path !== '/main' ?
                         <CustomButton type="text" text="簽署新文件" onClick={() => navigate('/main')}></CustomButton>
                         : null}
-                    <CustomButton type="text" text="登入"></CustomButton>
+                    <CustomButton type="text" text="登入" disabled></CustomButton>
                 </div>
             </div>
         </div>

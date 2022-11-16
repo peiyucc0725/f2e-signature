@@ -1,0 +1,63 @@
+@import '../variables.module.scss';
+
+.upload-image-dialog {
+    .MuiDialog-paper {
+        width: 95vw;
+        max-width: 830px;
+        border-radius: 35px;
+        padding: 20px 25px;
+        text-align: center;
+
+        .MuiDialogContent-root {
+            padding: 0;
+        }
+    }
+
+    .dialog-title {
+        font-size: 20px;
+        line-height: 30px;
+        color: $dark-grey;
+        font-weight: 300;
+        letter-spacing: 0.2em;
+    }
+
+    .file-box {
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: $dark-grey;
+        border: 1px $dark-grey dashed;
+        font-size: 20px;
+        line-height: 30px;
+        font-weight: 300;
+        letter-spacing: 0.2em;
+        transition: .3s;
+        margin: 20px 0;
+
+        &:not(.has-image) {
+            cursor: pointer;
+
+            &:hover,
+            &.drag-active {
+                background-color: $light-main;
+            }
+        }
+
+        .img-svg {
+            width: 132px;
+            height: 120px;
+            fill: $dark-grey;
+            margin: 25px 0;
+        }
+    }
+
+    .MuiDialogActions-root {
+        justify-content: space-between;
+
+        .clear-btn {
+            font-size: 20px;
+        }
+    }
+}

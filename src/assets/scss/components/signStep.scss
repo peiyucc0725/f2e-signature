@@ -1,0 +1,88 @@
+@import '../variables.module.scss';
+
+.sign-step {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 160px);
+
+    &__setting {
+        width: 400px;
+        height: 100%;
+        background-color: $white;
+        letter-spacing: 0em;
+
+        .setting-title {
+            padding: 25px 37px;
+            color: $dark-grey;
+            border-bottom: 1px solid $mid-grey;
+
+            &__title {
+                font-weight: 500;
+            }
+
+            .filename-input {
+                width: calc(100% + 5px);
+                height: 26px;
+                margin: 10px 0 0 -5px;
+
+                &:hover,
+                .Mui-focused {
+                    fieldset {
+                        border-color: $dark-grey;
+                        border-width: 1px;
+                    }
+                }
+
+                .Mui-focused {
+                    .MuiInputAdornment-root {
+                        display: none;
+                    }
+                }
+
+                input {
+                    height: 26px;
+                    padding: 0 5px;
+                    color: $dark-grey;
+                    font-weight: 300;
+                }
+
+                fieldset {
+                    border-color: transparent;
+                }
+            }
+        }
+
+        .setting-sign {
+            padding: 25px 37px;
+            color: $dark-grey;
+
+            &__title {
+                font-weight: 500;
+            }
+
+            &__button {
+                height: 60px;
+                border: 1px dashed $dark-grey;
+                margin: 15px 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                font-weight: 300;
+
+                img, svg {
+                    margin-left: 12px;
+                }
+            }
+        }
+    }
+
+    &__editor {
+        width: calc(100% - 400px);
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

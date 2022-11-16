@@ -3,19 +3,21 @@ import '../assets/scss/components/customButton.scss'
 const CustomButton = props => {
     const { onClick } = props;
 
-    const handleClose = (event) => {
+    const handleClick = (event) => {
+        if(props.disabled) return 
         onClick(event);
     };
 
     return (
-        <button className={`custom-button ${props.type} ${props.disabled ? 'disabled' : ""} ${props.contentClass}`} onClick={handleClose}>
+        <button className={`custom-button ${props.type}${props.disabled ? ' disabled' : ""} ${props.contentClass}`} onClick={handleClick}>
             {props.text}
         </button>
     );
 }
 
 CustomButton.defaultProps = {
-    type: 'confirm'
+    type: 'confirm',
+    contentClass: ''
 }
 
 export default CustomButton;
