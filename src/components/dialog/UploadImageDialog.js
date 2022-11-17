@@ -14,6 +14,7 @@ const UploadImageDialog = props => {
     const [alertVisible, setAlertVisible] = useState(false)
     const [alertText, setAlertText] = useState('您的檔案太大了!');
     const [uploadImg, setUploadImg] = useState(null)
+    const [signList, setSignList] = useState(JSON.parse(localStorage.getItem('sign-files')) || []);
 
     const onClickUpload = () => {
         if (uploadImg) return
@@ -26,8 +27,14 @@ const UploadImageDialog = props => {
         setUploadImg(null)
         onClose(event);
     };
-    const handleConfirm = (event) => {
-        onConfirm(event);
+    const handleConfirm = () => {
+        const originList = JSON.parse(localStorage.getItem('sign-files')) || []
+        const newId = originList.length > 0 ? originList[originList.length - 1].id + 1 : 1
+        const newList = [...originList, { id: newId, source: uploadImg }]
+        localStorage.setItem('sign-files', JSON.stringify(newList))
+        setSignList(newList)
+        handleClearFile()
+        onConfirm();
     }
     const handleClearFile = (event) => {
         setUploadImg(null)
@@ -46,17 +53,26 @@ const UploadImageDialog = props => {
         }
         return verifystatus
     }
-    const handleChangeInput = function (e) {
+
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
+    const handleChangeInput = async (e) => {
         if (uploadImg) return
         e.preventDefault();
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0]
             const verified = verifyFile(file)
             if (!verified) return
-            setUploadImg(URL.createObjectURL(file))
+            const data = await toBase64(file)
+            setUploadImg(data)
         }
     };
-    const handleDrag = function (e) {
+    const handleDrag = (e) => {
         if (uploadImg) return
         e.preventDefault();
         e.stopPropagation();
@@ -66,7 +82,7 @@ const UploadImageDialog = props => {
             setDragActive(false);
         }
     };
-    const handleDrop = function (e) {
+    const handleDrop = async (e) => {
         if (uploadImg) return
         e.preventDefault();
         e.stopPropagation();
@@ -75,7 +91,8 @@ const UploadImageDialog = props => {
             const file = e.dataTransfer.files[0]
             const verified = verifyFile(file)
             if (!verified) return
-            setUploadImg(URL.createObjectURL(file))
+            const data = await toBase64(file)
+            setUploadImg(data)
         }
     };
 

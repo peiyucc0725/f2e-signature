@@ -57,6 +57,7 @@ const UploadStep = props => {
         return `${year}/${mon}/${date}, ${hour}:${min}`
     }
     const onClickUpload = () => {
+        inputRef.current.value = ''
         inputRef.current.click();
     }
 

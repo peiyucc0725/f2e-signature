@@ -61,6 +61,27 @@
                 font-weight: 500;
             }
 
+            &__sign {
+                height: 60px;
+                display: flex;
+                align-items: center;
+                border: 1px dashed $dark-grey;
+                padding: 0 20px;
+                margin: 15px 0;
+                .sign {
+                    cursor: grab;
+                }
+                & >div {
+                    height: 100%;
+                    width: calc(100% - 22px);
+                    text-align: center;
+                }
+                .delete-btn {
+                    width: 22px;
+                    cursor: pointer;
+                }
+            }
+
             &__button {
                 height: 60px;
                 border: 1px dashed $dark-grey;
@@ -84,5 +105,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
+        overflow-y: auto;
     }
 }

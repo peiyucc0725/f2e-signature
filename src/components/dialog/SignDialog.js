@@ -27,13 +27,14 @@ const SignDialog = props => {
         onClose(event);
     };
 
-    const handleConfirm = (event) => {
-        const newImg = exportCanvas()
-        console.log(newImg)
-        const newList = [...signList, newImg]
+    const handleConfirm = async () => {
+        const originList = JSON.parse(localStorage.getItem('sign-files')) || []
+        const newId = originList.length > 0 ? originList[originList.length - 1].id + 1 : 1
+        const newImg = await exportCanvas()
+        const newList = [...originList, { id: newId, source: newImg }]
         localStorage.setItem('sign-files', JSON.stringify(newList))
         setSignList(newList)
-        onConfirm(event);
+        onConfirm();
     }
 
     return (

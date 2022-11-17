@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import * as pdfjsLib from "pdfjs-dist/build/pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 import { fabric } from 'fabric'
@@ -14,25 +14,38 @@ import SignDialog from '../../../components/dialog/SignDialog';
 
 const SignStep = props => {
     const { selected } = props
+    const editorRef = useRef(null)
     const [fileName, setFileName] = useState(selected.name)
-    const [signList, setSignList] = useState(JSON.parse(localStorage.getItem('sign-list')) || [])
+    const [signList, setSignList] = useState(JSON.parse(localStorage.getItem('sign-files')) || [])
     const [uploadImgVisible, setUploadImgVisible] = useState(false)
     const [signVisible, setSignVisible] = useState(false)
+    const canvas = useRef(null);
+    let pdfDoc = null
     const base64Prefix = "data:application/pdf;base64,";
     pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+    const handelDeleteSign = (id) => {
 
+    }
     const handleChangeFileName = (event) => {
         setFileName(event.target.value)
     }
 
-    const fetchSignList = () => {
-        setSignList(JSON.parse(localStorage.getItem('sign-list')) || [])
+    const handleDialogConfirm = (type) => {
+        switch (type) {
+            case 'sign':
+                setSignVisible(false)
+                break;
+            case 'image':
+                setUploadImgVisible(false)
+                break;
+            default:
+                break;
+        }
+        setSignList(JSON.parse(localStorage.getItem('sign-files')) || [])
     }
 
-    const printPDF = async (file) => {
-        const data = atob(file.substring(base64Prefix.length));
-        const pdfDoc = await pdfjsLib.getDocument({ data }).promise;
-        const pdfPage = await pdfDoc.getPage(1);
+    const printPDFPage = async (pdfDoc, page) => {
+        const pdfPage = await pdfDoc.getPage(page);
         const viewport = pdfPage.getViewport({ scale: window.devicePixelRatio });
         const cv = document.createElement("canvas");
         const context = cv.getContext("2d");
@@ -46,27 +59,57 @@ const SignStep = props => {
         return renderTask.promise.then(() => cv);
     }
 
-    const pdfToImage = (pdfData, name) => {
+    const pdfToImage = (pdfData, name, page) => {
         const scale = 1 / window.devicePixelRatio;
         return new fabric.Image(pdfData, {
-            id: `${name}-pdf`,
+            id: `${name}-pdf-${page}`,
             scaleX: scale,
             scaleY: scale,
         });
     }
 
+    const renderPage = async (page) => {
+        const pdfData = await printPDFPage(pdfDoc, page);
+        const pdfImage = await pdfToImage(pdfData, selected.name, page);
+        const ratio = pdfImage.width / pdfImage.height
+        const width = editorRef.current.clientWidth
+        const height = editorRef.current.clientHeight
+        if (ratio > 1) {
+            canvas.current.setWidth(width / window.devicePixelRatio);
+            if (pdfImage.width > width) {
+                canvas.current.setHeight(width / ratio / window.devicePixelRatio);
+                canvas.current.setZoom(width / pdfImage.width);
+                document.getElementsByClassName("canvas-container")[0].style.marginTop = `${width / ratio - height}px`;
+            }
+            else {
+                canvas.current.setHeight(width * ratio / window.devicePixelRatio);
+                canvas.current.setZoom(pdfImage.width / width);
+                document.getElementsByClassName("canvas-container")[0].style.marginTop = `${width * ratio - height}px`;
+            }
+        }
+        else {
+            canvas.current.setHeight(pdfImage.height / window.devicePixelRatio);
+            canvas.current.setWidth(pdfImage.width / window.devicePixelRatio);
+            document.getElementsByClassName("canvas-container")[0].style.marginTop = `${pdfImage.height / window.devicePixelRatio - height}px`;
+        }
+        canvas.current.setBackgroundImage(pdfImage, canvas.current.renderAll.bind(canvas.current));
+    }
+
     const init = async () => {
-        const canvas = new fabric.Canvas("canvas");
-        canvas.requestRenderAll();
-        const pdfData = await printPDF(selected.source);
-        const pdfImage = await pdfToImage(pdfData, selected.name);
-        canvas.setWidth(pdfImage.width / window.devicePixelRatio);
-        canvas.setHeight(pdfImage.height / window.devicePixelRatio);
-        canvas.setBackgroundImage(pdfImage, canvas.renderAll.bind(canvas));
+        canvas.current = new fabric.Canvas("canvas")
+        canvas.current.requestRenderAll();
+        const data = atob(selected.source.substring(base64Prefix.length));
+        pdfDoc = await pdfjsLib.getDocument({ data }).promise;
+        // TODO: 多頁切換
+        renderPage(1)
     }
 
     useEffect(() => {
         init()
+        return () => {
+            canvas.current.dispose();
+            canvas.current = null;
+        };
     }, [])
 
     return (
@@ -90,11 +133,13 @@ const SignStep = props => {
                 </div>
                 <div className='setting-sign'>
                     <div className="setting-sign__title">我的簽名</div>
-                    {signList.map((item, index) => {
+                    {signList.map((item) => {
                         return (
-                            <div className='setting-sign__sign'>
-                                <img src={item.source} alt={`sign-${index}`} height="60" width="auto" />
-                                <img src={DeleteIcon} alt="delete-icon" />
+                            <div className='setting-sign__sign' key={item.id}>
+                                <div>
+                                    <img className="sign" src={item.source} alt={`sign-${item.id}`} height="58" width="auto" />
+                                </div>
+                                <img className="delete-btn" src={DeleteIcon} alt="delete-icon" onClick={() => handelDeleteSign(item.id)} />
                             </div>
                         )
                     })}
@@ -106,11 +151,11 @@ const SignStep = props => {
                     </div>
                 </div>
             </div>
-            <div className="sign-step__editor">
+            <div ref={editorRef} className="sign-step__editor">
                 <canvas id="canvas"> </canvas>
             </div>
-            <SignDialog open={signVisible} onClose={() => setSignVisible(false)} onConfirm={fetchSignList}/>
-            <UploadImageDialog open={uploadImgVisible} onClose={() => setUploadImgVisible(false)} />
+            <SignDialog open={signVisible} onClose={() => setSignVisible(false)} onConfirm={() => handleDialogConfirm('sign')} />
+            <UploadImageDialog open={uploadImgVisible} onClose={() => setUploadImgVisible(false)} onConfirm={() => handleDialogConfirm('image')} />
         </div>
     );
 }

@@ -11,6 +11,7 @@
 
         &.text {
             color: $disabled;
+            cursor: not-allowed;
         }
     }
 
@@ -48,6 +49,7 @@
         &.disabled {
             color: $white;
             background-color: $mid-grey;
+            cursor: not-allowed;
         }
     }
 
