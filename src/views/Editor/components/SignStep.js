@@ -10,17 +10,23 @@ import SignIcon from '../../../assets/images/sign-icon.svg';
 import { ReactComponent as ImageIcon } from '../../../assets/images/image-icon.svg';
 import DeleteIcon from '../../../assets/images/delete-icon.svg';
 import UploadImageDialog from '../../../components/dialog/UploadImageDialog'
+import SignDialog from '../../../components/dialog/SignDialog';
 
 const SignStep = props => {
     const { selected } = props
     const [fileName, setFileName] = useState(selected.name)
     const [signList, setSignList] = useState(JSON.parse(localStorage.getItem('sign-list')) || [])
-    const [uploadImgVisible, setUploadImgVisible] = useState(true)
+    const [uploadImgVisible, setUploadImgVisible] = useState(false)
+    const [signVisible, setSignVisible] = useState(false)
     const base64Prefix = "data:application/pdf;base64,";
     pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
     const handleChangeFileName = (event) => {
         setFileName(event.target.value)
+    }
+
+    const fetchSignList = () => {
+        setSignList(JSON.parse(localStorage.getItem('sign-list')) || [])
     }
 
     const printPDF = async (file) => {
@@ -84,25 +90,26 @@ const SignStep = props => {
                 </div>
                 <div className='setting-sign'>
                     <div className="setting-sign__title">我的簽名</div>
-                    {signList.map(item => {
+                    {signList.map((item, index) => {
                         return (
                             <div className='setting-sign__sign'>
-                                <img src={item.source} alt={item.name} height="60" width="auto" />
+                                <img src={item.source} alt={`sign-${index}`} height="60" width="auto" />
                                 <img src={DeleteIcon} alt="delete-icon" />
                             </div>
                         )
                     })}
-                    <div className='setting-sign__button'>創建簽名
+                    <div className='setting-sign__button' onClick={() => setSignVisible(true)}>創建簽名
                         <img src={SignIcon} alt="sign-icon" />
                     </div>
-                    <div className='setting-sign__button'>上傳圖片
-                        <ImageIcon fill="#94989B"/>
+                    <div className='setting-sign__button' onClick={() => setUploadImgVisible(true)}>上傳圖片
+                        <ImageIcon fill="#94989B" />
                     </div>
                 </div>
             </div>
             <div className="sign-step__editor">
                 <canvas id="canvas"> </canvas>
             </div>
+            <SignDialog open={signVisible} onClose={() => setSignVisible(false)} onConfirm={fetchSignList}/>
             <UploadImageDialog open={uploadImgVisible} onClose={() => setUploadImgVisible(false)} />
         </div>
     );

@@ -92,7 +92,7 @@ const UploadImageDialog = props => {
                     onDragOver={handleDrag}
                     onDrop={handleDrop}>
                     {uploadImg ?
-                        <img src={uploadImg} alt="previewImg" width="auto" height='298' /> :
+                        <img src={uploadImg} alt="previewImg" /> :
                         <div>
                             <div>點擊此處上傳 或 直接拖曳檔案</div>
                             <ImageIcon className="img-svg" />
@@ -106,7 +106,8 @@ const UploadImageDialog = props => {
                 <CustomButton contentClass="clear-btn" text="清除" type="text" onClick={handleClearFile} ></CustomButton>
                 <div>
                     <CustomButton text="取消" type="cancel-fill" onClick={handleCancel} ></CustomButton>
-                    <CustomButton contentClass="ml-16" text="使用圖標" onClick={handleConfirm} autoFocus></CustomButton>
+                    <CustomButton contentClass="ml-16" text="使用圖標"
+                        onClick={handleConfirm} autoFocus disabled={uploadImg ? false : true}></CustomButton>
                 </div>
             </DialogActions>
         </Dialog>

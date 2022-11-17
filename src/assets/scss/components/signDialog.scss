@@ -1,0 +1,50 @@
+@import '../variables.module.scss';
+
+.sign-dialog {
+    .MuiDialog-paper {
+        width: 95vw;
+        max-width: 830px;
+        border-radius: 35px;
+        padding: 20px 25px;
+        text-align: center;
+
+        .MuiDialogContent-root {
+            padding: 0;
+        }
+    }
+
+    .dialog-title {
+        font-size: 20px;
+        line-height: 30px;
+        color: $dark-grey;
+        font-weight: 300;
+        letter-spacing: 0.2em;
+    }
+
+    #drawCanvas {
+        border: 1px $dark-grey dashed;
+        margin: 20px 0;
+    }
+
+    .MuiDialogActions-root {
+        justify-content: space-between;
+
+        &>div {
+            display: flex;
+        }
+
+        .clear-btn {
+            font-size: 20px;
+        }
+
+        .color-btn {
+            width: 35px;
+            height: 35px;
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            margin-left: 25px;
+            cursor: pointer; 
+        }
+    }
+}
