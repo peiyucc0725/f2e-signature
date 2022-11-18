@@ -13,18 +13,76 @@ import UploadImageDialog from '../../../components/dialog/UploadImageDialog'
 import SignDialog from '../../../components/dialog/SignDialog';
 
 const SignStep = props => {
-    const { selected } = props
+    const { selected, handleSign } = props
     const editorRef = useRef(null)
     const [fileName, setFileName] = useState(selected.name)
     const [signList, setSignList] = useState(JSON.parse(localStorage.getItem('sign-files')) || [])
     const [uploadImgVisible, setUploadImgVisible] = useState(false)
     const [signVisible, setSignVisible] = useState(false)
+    const [dragItem, setDragItem] = useState(null)
     const canvas = useRef(null);
     let pdfDoc = null
     const base64Prefix = "data:application/pdf;base64,";
     pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
-    const handelDeleteSign = (id) => {
+    var fabricIcon = document.createElement('img');
+    fabricIcon.src = DeleteIcon;
 
+    const renderIcon = (ctx, left, top, styleOverride, fabricObject) => {
+        const size = 22;
+        ctx.save();
+        ctx.translate(left, top);
+        ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
+        ctx.drawImage(fabricIcon, -size / 2, -size / 2, size, size);
+        ctx.restore();
+    }
+
+    const deleteObject = (eventData, transform) => {
+        var target = transform.target;
+        canvas.current.remove(target);
+        canvas.current.requestRenderAll();
+        handleSign(canvas.current.getObjects().length > 0)
+    }
+
+    const handleDrop = () => {
+        if (!dragItem) return
+        fabric.Object.prototype.controls.deleteControl = new fabric.Control({
+            x: -0.5,
+            y: -0.5,
+            cursorStyle: 'pointer',
+            mouseUpHandler: deleteObject,
+            render: renderIcon,
+            cornerSize: 22
+        });
+        fabric.Object.prototype.borderColor = '#D9D9D9';
+        fabric.Object.prototype.cornerColor = '#D9D9D9';
+        fabric.Object.prototype.cornerStyle = 'circle';
+        fabric.Image.fromURL(dragItem.source, function (image) {
+            if (image.width > canvas.current.width) {
+                image.scaleX = canvas.current.width / image.width * 0.8;
+                image.scaleY = canvas.current.width / image.width * 0.8;
+            }
+            else {
+                image.scaleX = 1;
+                image.scaleY = 1;
+            }
+            image.top = 0;
+            canvas.current.add(image);
+            handleSign(canvas.current.getObjects().length > 0)
+        });
+    }
+
+    const handleDragStart = (item) => {
+        setDragItem(item)
+    }
+
+    const handleDragEnd = (e) => {
+        setDragItem(null)
+    }
+
+    const handelDeleteSign = (id) => {
+        const newList = signList.filter(item => item.id !== id)
+        setSignList(newList)
+        localStorage.setItem('sign-files', JSON.stringify(newList))
     }
     const handleChangeFileName = (event) => {
         setFileName(event.target.value)
@@ -73,7 +131,7 @@ const SignStep = props => {
         const pdfImage = await pdfToImage(pdfData, selected.name, page);
         const ratio = pdfImage.width / pdfImage.height
         const width = editorRef.current.clientWidth
-        const height = editorRef.current.clientHeight
+        const height = editorRef.current.clientHeight - 50
         if (ratio > 1) {
             canvas.current.setWidth(width / window.devicePixelRatio);
             if (pdfImage.width > width) {
@@ -132,11 +190,13 @@ const SignStep = props => {
                         onChange={handleChangeFileName} />
                 </div>
                 <div className='setting-sign'>
-                    <div className="setting-sign__title">我的簽名</div>
+                    <div className="setting-sign__title">我的簽名(直接拖曳使用)</div>
                     {signList.map((item) => {
                         return (
                             <div className='setting-sign__sign' key={item.id}>
-                                <div>
+                                <div draggable
+                                    onDragStart={() => handleDragStart(item)}
+                                    onDragEnd={handleDragEnd}>
                                     <img className="sign" src={item.source} alt={`sign-${item.id}`} height="58" width="auto" />
                                 </div>
                                 <img className="delete-btn" src={DeleteIcon} alt="delete-icon" onClick={() => handelDeleteSign(item.id)} />
@@ -151,7 +211,7 @@ const SignStep = props => {
                     </div>
                 </div>
             </div>
-            <div ref={editorRef} className="sign-step__editor">
+            <div ref={editorRef} className="sign-step__editor" onDrop={handleDrop}>
                 <canvas id="canvas"> </canvas>
             </div>
             <SignDialog open={signVisible} onClose={() => setSignVisible(false)} onConfirm={() => handleDialogConfirm('sign')} />

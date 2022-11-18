@@ -8,6 +8,7 @@ const Main = () => {
     let navigate = useNavigate();
     const [step, setStep] = useState(1)
     const [selectedFile, setSelectedFile] = useState(null)
+    const [isSign, setIsSign] = useState(null)
     const stepClass = (cur) => {
         let array = [`step-${cur}`]
         if (step === cur) array.push('active')
@@ -40,6 +41,18 @@ const Main = () => {
                 return '開啟文件'
         }
     }
+    const stepBtnStatus = () => {
+        switch (step) {
+            case 1:
+                return selectedFile ? false : true
+            case 2:
+                return !isSign
+            case 3:
+                return false
+            default:
+                return false
+        }
+    }
     const back = () => {
         setStep(step - 1)
     }
@@ -50,11 +63,14 @@ const Main = () => {
     const handleUpload = (file) => {
         setSelectedFile(file)
     }
+    const handleSign = (val) => {
+        setIsSign(val)
+    }
 
     return (
         <div className="main-page">
             <div className="main-container">
-                <Editor step={step} handleUpload={handleUpload} />
+                <Editor step={step} handleUpload={handleUpload} handleSign={handleSign} />
             </div>
             <div className="main-footer">
                 <div className="inner">
@@ -71,9 +87,9 @@ const Main = () => {
                         </div>
                     </div>
                     <div className="main-footer__btn">
-                        <CustomButton text="取消" type="cancel" onClick={()=>navigate('/')} ></CustomButton>
+                        <CustomButton text="取消" type="cancel" onClick={() => navigate('/')} ></CustomButton>
                         {step === 3 ? <CustomButton contentClass="ml-16" text="返回編輯" type="cancel" onClick={back} ></CustomButton> : false}
-                        <CustomButton contentClass="ml-16" text={confirmBtnText()} onClick={next} disabled={selectedFile ? false : true}></CustomButton>
+                        <CustomButton contentClass="ml-16" text={confirmBtnText()} onClick={next} disabled={stepBtnStatus()}></CustomButton>
                     </div>
                 </div>
             </div>

@@ -99,7 +99,6 @@ const UploadStep = props => {
         }
         const verified = verifyFile(file)
         if (!verified) return
-        handleSelectFile(file)
         const blob = await readBlob(file);
         const data = {
             name: file.name,
@@ -110,6 +109,7 @@ const UploadStep = props => {
         }
         setSelectedFile(data)
         setUploadFiles([...uploadFiles, data])
+        handleSelectFile(data)
         localStorage.setItem('sign-upload-files', JSON.stringify([...uploadFiles, data]))
         setValue(1)
     }

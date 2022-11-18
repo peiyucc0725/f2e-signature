@@ -4,7 +4,7 @@ import SignStep from './components/SignStep'
 import DownloadStep from './components/DownloadStep'
 
 const Editor = props => {
-    const { handleUpload } = props
+    const { handleUpload, handleSign } = props
     const [selectedFile, setSelectedFile] = useState(null)
 
     const handleSelectFile = (file) => {
@@ -17,7 +17,9 @@ const Editor = props => {
             {props.step === 1 ?
                 <UploadStep handleSelectFile={handleSelectFile} />
                 : props.step === 2 ?
-                    <SignStep selected={selectedFile} />
+                    <SignStep
+                        selected={selectedFile}
+                        handleSign={(isSign) => handleSign(isSign)} />
                     : <DownloadStep />}
         </div>
     );
