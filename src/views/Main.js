@@ -67,7 +67,9 @@ const Main = () => {
                 return
             case 2:
                 setLoading(true)
-                setStep(step + 1)
+                setTimeout(() => {
+                    setStep(step + 1)
+                }, 1500)
                 return
             case 3:
                 exportPDF()
@@ -90,7 +92,7 @@ const Main = () => {
     }
     const exportPDF = () => {
         const { image, width, height } = previewImage
-        const {fileName} = sign
+        const { fileName } = sign
         let orientation = 'portrait'
         if (width > height) {
             orientation = "landscape"
@@ -99,7 +101,7 @@ const Main = () => {
         const pdfWidth = pdf.internal.pageSize.width;
         const pdfHeight = pdf.internal.pageSize.height;
         pdf.addImage({ imageData: image, format: 'JPEG', x: 0, y: 0, width: pdfWidth, height: pdfHeight, compression: 'MEDIUM' });
-        pdf.save(`${fileName.replace('.pdf','')}`);
+        pdf.save(`${fileName.replace('.pdf', '')}`);
     }
 
     return (
