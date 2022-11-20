@@ -8,6 +8,7 @@ import ConfirmDialog from '../../../components/dialog/ConfirmDialog'
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '../../../assets/images/search-icon.svg';
+import DeleteIcon from '../../../assets/images/delete-icon.svg';
 
 const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
@@ -93,7 +94,7 @@ const UploadStep = props => {
 
     const encodeFile = async (file) => {
         if (uploadFiles.length >= 3) {
-            setAlertText('檔案數量超過上限，請登入使用更大空間!')
+            setAlertText('檔案數量超過上限，請先刪除檔案或登入使用更大空間!')
             setAlertVisible(true)
             return
         }
@@ -150,6 +151,15 @@ const UploadStep = props => {
         }
     };
 
+    const handelDeleteFile = (name, e) => {
+        e.stopPropagation()
+        const newList = uploadFiles.filter(item => item.name !== name)
+        setUploadFiles(newList)
+        localStorage.setItem('sign-upload-files', JSON.stringify(newList))
+        handleSelectFile(null)
+        setSelectedFile(null)
+    }
+
     return (
         <div className="upload-step">
             <div className="inner">
@@ -198,6 +208,7 @@ const UploadStep = props => {
                                 <div className='upload-list__header'>
                                     <div className='name'>名稱</div>
                                     <div className='upload-time'>上傳時間</div>
+                                    <div style={{width: '22px'}}></div>
                                     {/* <div className='open-time'>上次開啟</div> */}
                                 </div>
                                 {uploadFiles.map((file, index) => {
@@ -206,6 +217,7 @@ const UploadStep = props => {
                                             key={index} onClick={() => onSelectFile(file)}>
                                             <div className='name' title={file.name}>{file.name}</div>
                                             <div className='upload-time'>{timeFormat(file.uploadTime)}</div>
+                                            <img src={DeleteIcon} alt="delete-icon" onClick={(e) => handelDeleteFile(file.name, e)} />
                                             {/* <div className='open-time'>{timeFormat(file.openTime)}</div> */}
                                         </div>
                                     )
