@@ -140,12 +140,12 @@
                 font-weight: 300;
 
                 .name {
-                    width: 50%;
+                    width: 60%;
                 }
 
                 .upload-time,
                 .open-time {
-                    width: 25%;
+                    width: 40%;
                 }
             }
 
@@ -172,12 +172,12 @@
                 }
 
                 .name {
-                    width: 50%;
+                    width: 60%;
                 }
 
                 .upload-time,
                 .open-time {
-                    width: 25%;
+                    width: 40%;
                 }
 
                 &:hover {
@@ -187,6 +187,47 @@
                 &.active {
                     background-color: $light-main;
                 }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .upload-step {
+        .MuiTab-root {
+            font-size: 16px;
+            line-height: 24px;
+        }
+
+        .tab-panel {
+            .upload-list {
+                &__search {
+                    .MuiInputBase-root {
+                        input {
+                            font-size: 16px;
+                            line-height: 19px;
+                        }
+                    }
+                }
+
+                &__header,
+                &__row {
+                    height: 50px;
+                    font-size: 14px;
+                    line-height: 17px;
+                    padding: 0 25px;
+                }
+            }
+
+            .file-box {
+                font-weight: 300;
+                font-size: 16px;
+                line-height: 24px;
+            }
+
+            .MuiBox-root {
+                padding: 30px;
+
             }
         }
     }

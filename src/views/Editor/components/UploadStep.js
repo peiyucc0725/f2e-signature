@@ -186,6 +186,7 @@ const UploadStep = props => {
                                         id="outlined-basic"
                                         variant="outlined"
                                         placeholder="搜尋文件名稱"
+                                        disabled
                                         InputProps={{
                                             endAdornment: (
                                                 <InputAdornment position="end">
@@ -197,7 +198,7 @@ const UploadStep = props => {
                                 <div className='upload-list__header'>
                                     <div className='name'>名稱</div>
                                     <div className='upload-time'>上傳時間</div>
-                                    <div className='open-time'>上次開啟</div>
+                                    {/* <div className='open-time'>上次開啟</div> */}
                                 </div>
                                 {uploadFiles.map((file, index) => {
                                     return (
@@ -205,7 +206,7 @@ const UploadStep = props => {
                                             key={index} onClick={() => onSelectFile(file)}>
                                             <div className='name' title={file.name}>{file.name}</div>
                                             <div className='upload-time'>{timeFormat(file.uploadTime)}</div>
-                                            <div className='open-time'>{timeFormat(file.openTime)}</div>
+                                            {/* <div className='open-time'>{timeFormat(file.openTime)}</div> */}
                                         </div>
                                     )
                                 })}

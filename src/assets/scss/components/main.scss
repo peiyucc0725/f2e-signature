@@ -10,6 +10,7 @@
     .main-container {
         height: calc(100% - 100px);
         width: 100%;
+        position: relative;
     }
 
     .main-footer {
@@ -22,6 +23,8 @@
         background-color: $light-main;
         color: $dark-grey;
         font-weight: 300;
+        overflow-x: auto;
+        overflow-y: hidden;
 
         &__step {
             width: 436px;
@@ -68,11 +71,13 @@
                         background-color: $secondary;
                     }
                 }
+
                 &.progress-50 {
                     &::after {
                         width: 197px;
                     }
                 }
+
                 &.progress-100 {
                     &::after {
                         width: 394px;
@@ -111,6 +116,34 @@
                     }
                 }
 
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .main-page {
+        .main-footer {
+            &__step {
+                width: 267px;
+                .step-text {
+                    width: 267px;
+                    font-size: 14px;
+                }
+                .step-line { 
+                    width: 210px;
+                    &.progress-50 {
+                        &::after {
+                            width: 102px;
+                        }
+                    }
+    
+                    &.progress-100 {
+                        &::after {
+                            width: 200px;
+                        }
+                    }
+                }
             }
         }
     }

@@ -1,0 +1,12 @@
+@import '../variables.module.scss';
+
+.download-step {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 160px);
+    overflow-y: auto;
+    #preview-image {
+        margin-bottom: 20px;
+    }
+}

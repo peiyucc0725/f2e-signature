@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import '../assets/scss/components/landing.scss'
 import logo from '../assets/images/logo-lg.svg'
 import Main1x from '../assets/images/landing@1x.png'

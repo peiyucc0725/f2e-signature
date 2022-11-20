@@ -14,7 +14,6 @@ const UploadImageDialog = props => {
     const [alertVisible, setAlertVisible] = useState(false)
     const [alertText, setAlertText] = useState('您的檔案太大了!');
     const [uploadImg, setUploadImg] = useState(null)
-    const [signList, setSignList] = useState(JSON.parse(localStorage.getItem('sign-files')) || []);
 
     const onClickUpload = () => {
         if (uploadImg) return
@@ -32,7 +31,6 @@ const UploadImageDialog = props => {
         const newId = originList.length > 0 ? originList[originList.length - 1].id + 1 : 1
         const newList = [...originList, { id: newId, source: uploadImg }]
         localStorage.setItem('sign-files', JSON.stringify(newList))
-        setSignList(newList)
         handleClearFile()
         onConfirm();
     }

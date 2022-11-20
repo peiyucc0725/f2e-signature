@@ -13,20 +13,29 @@ import UploadImageDialog from '../../../components/dialog/UploadImageDialog'
 import SignDialog from '../../../components/dialog/SignDialog';
 
 const SignStep = props => {
-    const { selected, handleSign } = props
+    const { selected, sign, handleSign } = props
     const editorRef = useRef(null)
     const [fileName, setFileName] = useState(selected.name)
     const [signList, setSignList] = useState(JSON.parse(localStorage.getItem('sign-files')) || [])
     const [uploadImgVisible, setUploadImgVisible] = useState(false)
     const [signVisible, setSignVisible] = useState(false)
     const [dragItem, setDragItem] = useState(null)
+    const [drawerOpen, setDrawerOpen] = useState(true)
     const canvas = useRef(null);
     let pdfDoc = null
     const base64Prefix = "data:application/pdf;base64,";
     pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
     var fabricIcon = document.createElement('img');
     fabricIcon.src = DeleteIcon;
-
+    const handleUpdateSign = () => {
+        handleSign(canvas.current.getObjects().length > 0 ? {
+            width: canvas.current.width,
+            height: canvas.current.height,
+            zoom: canvas.current.getZoom(),
+            fileName,
+            data: JSON.stringify(canvas.current)
+        } : null)
+    }
     const renderIcon = (ctx, left, top, styleOverride, fabricObject) => {
         const size = 22;
         ctx.save();
@@ -40,22 +49,11 @@ const SignStep = props => {
         var target = transform.target;
         canvas.current.remove(target);
         canvas.current.requestRenderAll();
-        handleSign(canvas.current.getObjects().length > 0)
+        handleUpdateSign()
     }
 
-    const handleDrop = () => {
+    const handleDrop = (e) => {
         if (!dragItem) return
-        fabric.Object.prototype.controls.deleteControl = new fabric.Control({
-            x: -0.5,
-            y: -0.5,
-            cursorStyle: 'pointer',
-            mouseUpHandler: deleteObject,
-            render: renderIcon,
-            cornerSize: 22
-        });
-        fabric.Object.prototype.borderColor = '#D9D9D9';
-        fabric.Object.prototype.cornerColor = '#D9D9D9';
-        fabric.Object.prototype.cornerStyle = 'circle';
         fabric.Image.fromURL(dragItem.source, function (image) {
             if (image.width > canvas.current.width) {
                 image.scaleX = canvas.current.width / image.width * 0.8;
@@ -65,9 +63,10 @@ const SignStep = props => {
                 image.scaleX = 1;
                 image.scaleY = 1;
             }
-            image.top = 0;
+            image.top = e.clientY - canvas.current._offset.top - image.height * image.scaleY / 2;
+            image.left = e.clientX - canvas.current._offset.left - image.width * image.scaleX / 2;
             canvas.current.add(image);
-            handleSign(canvas.current.getObjects().length > 0)
+            handleUpdateSign()
         });
     }
 
@@ -154,12 +153,40 @@ const SignStep = props => {
     }
 
     const init = async () => {
+        fabric.Object.prototype.controls.deleteControl = new fabric.Control({
+            x: -0.5,
+            y: -0.5,
+            cursorStyle: 'pointer',
+            mouseUpHandler: deleteObject,
+            render: renderIcon,
+            cornerSize: 22
+        });
+        fabric.Object.prototype.borderColor = '#D9D9D9';
+        fabric.Object.prototype.cornerColor = '#D9D9D9';
+        fabric.Object.prototype.cornerStyle = 'circle';
         canvas.current = new fabric.Canvas("canvas")
-        canvas.current.requestRenderAll();
-        const data = atob(selected.source.substring(base64Prefix.length));
-        pdfDoc = await pdfjsLib.getDocument({ data }).promise;
-        // TODO: 多頁切換
-        renderPage(1)
+        canvas.current.on('object:modified', e => {
+            handleUpdateSign()
+        })
+        if (sign) {
+            const editorHeight = editorRef.current.clientHeight - 50
+            const { width, height, zoom, data } = sign
+            canvas.current.setWidth(width);
+            canvas.current.setHeight(height);
+            canvas.current.setZoom(zoom);
+            document.getElementsByClassName("canvas-container")[0].style.marginTop = `${height - editorHeight}px`;
+            canvas.current.loadFromJSON(data,
+                () => {
+                    canvas.current.renderAll.bind(canvas.current)
+                })
+        }
+        else {
+            canvas.current.requestRenderAll();
+            const data = atob(selected.source.substring(base64Prefix.length));
+            pdfDoc = await pdfjsLib.getDocument({ data }).promise;
+            // TODO: 多頁切換
+            renderPage(1)
+        }
     }
 
     useEffect(() => {
@@ -172,7 +199,10 @@ const SignStep = props => {
 
     return (
         <div className="sign-step">
-            <div className="sign-step__setting">
+            <div className={`sign-step__setting ${!drawerOpen?'hidden': ''}`}>
+                <div className={`drawer-btn ${!drawerOpen ? 'hidden' : 'show'}`} onClick={()=>setDrawerOpen(!drawerOpen)}>
+                    {!drawerOpen ? '》' : '《'}
+                </div>
                 <div className='setting-title'>
                     <div className="setting-title__title">文件名稱</div>
                     <TextField
@@ -197,7 +227,7 @@ const SignStep = props => {
                                 <div draggable
                                     onDragStart={() => handleDragStart(item)}
                                     onDragEnd={handleDragEnd}>
-                                    <img className="sign" src={item.source} alt={`sign-${item.id}`} height="58" width="auto" />
+                                    <img className="sign" src={item.source} alt={`sign-${item.id}`} />
                                 </div>
                                 <img className="delete-btn" src={DeleteIcon} alt="delete-icon" onClick={() => handelDeleteSign(item.id)} />
                             </div>

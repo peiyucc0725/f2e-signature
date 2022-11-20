@@ -55,9 +55,9 @@ img {
     user-drag: none;
 }
 
-::-webkit-scrollbar {
-    display: none;
-}
+// ::-webkit-scrollbar {
+//     display: none;
+// }
 
 a,
 button {
@@ -102,7 +102,7 @@ button {
     #cut > rect {
         width: 126px;
         height: 127px;
-        animation: fillCut 2s ease-in infinite;
+        animation: fillCut 1s ease-in infinite;
     }
 }
 
