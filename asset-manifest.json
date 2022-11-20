@@ -1,0 +1,38 @@
+{
+  "files": {
+    "main.css": "/f2e-signature/static/css/main.1ee20ba8.css",
+    "main.js": "/f2e-signature/static/js/main.0d2442a1.js",
+    "static/js/498.39870c53.chunk.js": "/f2e-signature/static/js/498.39870c53.chunk.js",
+    "static/js/703.c3a41e2e.chunk.js": "/f2e-signature/static/js/703.c3a41e2e.chunk.js",
+    "static/js/142.8f3c61b3.chunk.js": "/f2e-signature/static/js/142.8f3c61b3.chunk.js",
+    "static/js/787.6f02546b.chunk.js": "/f2e-signature/static/js/787.6f02546b.chunk.js",
+    "static/media/NotoSansTC-Bold.otf": "/f2e-signature/static/media/NotoSansTC-Bold.31790b4aedd48d3b5b49.otf",
+    "static/media/NotoSansTC-Medium.otf": "/f2e-signature/static/media/NotoSansTC-Medium.a615558f96fe9a0bbf44.otf",
+    "static/media/NotoSansTC-Regular.otf": "/f2e-signature/static/media/NotoSansTC-Regular.fe97a59b3a1e0b63d03b.otf",
+    "static/media/NotoSansTC-Light.otf": "/f2e-signature/static/media/NotoSansTC-Light.cbcea44e8d20d4636c3d.otf",
+    "static/media/landing@3x.png": "/f2e-signature/static/media/landing@3x.48166cd477e007fe5d6a.png",
+    "static/media/landing@2x.png": "/f2e-signature/static/media/landing@2x.7e1628abbb47484b0cf1.png",
+    "static/media/landing@1x.png": "/f2e-signature/static/media/landing@1x.8ee897aa5e1f4e96a6a7.png",
+    "static/media/landing-bg@1x.png": "/f2e-signature/static/media/landing-bg@1x.11abbe7e1dcf4991cec2.png",
+    "static/media/logo-sm.svg": "/f2e-signature/static/media/logo-sm.2326655e444344e87c7e48dd38dc8beb.svg",
+    "static/media/logo-lg.svg": "/f2e-signature/static/media/logo-lg.7ab1c5c151d1e3b26b316b106d9fc75d.svg",
+    "static/media/pdf-ani.svg": "/f2e-signature/static/media/pdf-ani.c85034dcc7b11acb020199048c77725d.svg",
+    "static/media/sign-icon.svg": "/f2e-signature/static/media/sign-icon.238419f45e753980e734479fc41adf18.svg",
+    "static/media/delete-icon.svg": "/f2e-signature/static/media/delete-icon.07d9c85c44b04a6ab22adbf41e6f8b79.svg",
+    "static/media/pdf.svg": "/f2e-signature/static/media/pdf.9843598f86a3680bca00d79fce292fc2.svg",
+    "static/media/image-icon.svg": "/f2e-signature/static/media/image-icon.2d42cc60bb20d75be4cda97bec21959f.svg",
+    "index.html": "/f2e-signature/index.html",
+    "static/media/edit-icon.svg": "/f2e-signature/static/media/edit-icon.4e72a97047213c4324f26600164531ce.svg",
+    "static/media/search-icon.svg": "/f2e-signature/static/media/search-icon.4129a7be287b5ebe2c55362862e7af96.svg",
+    "main.1ee20ba8.css.map": "/f2e-signature/static/css/main.1ee20ba8.css.map",
+    "main.0d2442a1.js.map": "/f2e-signature/static/js/main.0d2442a1.js.map",
+    "498.39870c53.chunk.js.map": "/f2e-signature/static/js/498.39870c53.chunk.js.map",
+    "703.c3a41e2e.chunk.js.map": "/f2e-signature/static/js/703.c3a41e2e.chunk.js.map",
+    "142.8f3c61b3.chunk.js.map": "/f2e-signature/static/js/142.8f3c61b3.chunk.js.map",
+    "787.6f02546b.chunk.js.map": "/f2e-signature/static/js/787.6f02546b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1ee20ba8.css",
+    "static/js/main.0d2442a1.js"
+  ]
+}
