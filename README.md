@@ -13,7 +13,7 @@
 ```
 Node.js Version: 14 LTS
 Framework: React 18
-Librarys: Fabric.js, jsPDF, PDF.js
+Library: Fabric.js, jsPDF, PDF.js
 ```
 
 -----
