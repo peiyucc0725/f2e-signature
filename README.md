@@ -7,7 +7,7 @@
 
 **Figma Document: [Link](https://www.figma.com/file/sPyo1NZ2zYyUQ0Z7VAj3et/%E5%B0%8F%E8%8F%9C_WEEK2?node-id=61%3A6099&t=g1kksu9gHYb20QKO-0)**
 
-**Live Demo: [今晚，我想來點點簽](https://peiyu0725.github.io/f2e-signature/)**
+**Live Demo: [今晚，我想來點點簽](https://peiyucc0725.github.io/f2e-signature/)**
 
 ## Use Technology & Library
 ```
